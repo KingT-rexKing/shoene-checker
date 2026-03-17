@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+/* 
+  全局样式
+  Tailwind CSS 会自动处理大部分样式
+  你只需要在这里放一些特殊的自定义样式
+*/
+
+body {
+  font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+}
