@@ -7,6 +7,7 @@
 import { useState } from "react";
 import { REGION_OPTIONS, type Region } from "@/data/rules";
 import { evaluate, type UserInput, type EvaluationResult } from "@/engine/evaluate";
+import InsulationRTable from "@/components/InsulationRTable";
 
 export default function Checker() {
   // ----- state: ユーザーの入力値を記憶する場所 -----
@@ -108,6 +109,9 @@ export default function Checker() {
           仕様基準をチェックする
         </button>
       </section>
+
+      {/* ===== 断熱材R値速查表 ===== */}
+      <InsulationRTable />
 
       {/* ===== 結果表示 ===== */}
       {result && (

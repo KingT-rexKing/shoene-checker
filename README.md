@@ -8,6 +8,8 @@
 
 本ツールは、小規模工務店や個人の建築士が**3分で仕様基準への適合を確認できる**ことを目指しています。
 
+デモ: https://shoene-checker.vercel.app/
+
 ## 対応範囲
 
 | 項目 | 対応状況 |
@@ -15,6 +17,7 @@
 | 木造戸建住宅 | ✅ 対応 |
 | 地域区分 全地域（1〜8） | ✅ 対応済み |
 | 仕様基準（簡易ルート） | ✅ 対応 |
+| 地域8（沖縄）日射遮蔽要件 | 🚧 今後対応予定 |
 | RC造・S造 | 🚧 今後対応予定 |
 | 性能基準（BEI計算） | 🚧 今後対応予定 |
 | 非住宅 | 🚧 今後対応予定 |
@@ -25,7 +28,7 @@ https://shoene-checker.vercel.app/ にアクセス。
 
 方法2.
 ```bash
-git clone https://github.com/YOUR_USERNAME/shoene-checker.git
+git clone https://github.com/KingT-rexKing/shoene-checker.git
 cd shoene-checker
 npm install
 npm run dev
@@ -49,7 +52,7 @@ npm run dev
 
 プルリクエスト歓迎です！特に以下の貢献をお待ちしています：
 
-- 地域区分 1〜3、8 のルール追加
+- 地域8（沖縄）の日射遮蔽（ηAC値）チェック機能
 - RC造・S造の仕様基準ルール追加
 - UI/UXの改善
 - 基準値の検証・修正
