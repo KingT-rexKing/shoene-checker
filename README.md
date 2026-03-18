@@ -20,7 +20,9 @@
 | 非住宅 | 🚧 今後対応予定 |
 
 ## クイックスタート
+1.https://shoene-checker.vercel.app/ にアクセス。
 
+2.
 ```bash
 git clone https://github.com/YOUR_USERNAME/shoene-checker.git
 cd shoene-checker
@@ -28,7 +30,7 @@ npm install
 npm run dev
 ```
 
-ブラウザで http://localhost:3000 を開いてください。
+ブラウザで http://localhost:3000 にアクセス。
 
 ## 技術スタック
 
