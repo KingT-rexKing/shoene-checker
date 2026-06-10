@@ -1,0 +1,420 @@
+@import "tailwindcss";
+
+/* ════════════════════════════════════════════════
+   Keyframes
+   ════════════════════════════════════════════════ */
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes gaugeGrow {
+  from { width: 0%; }
+}
+@keyframes celebration {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.025); }
+  70%  { transform: scale(0.985); }
+  100% { transform: scale(1); }
+}
+@keyframes shimmer {
+  0%   { left: -80%; }
+  100% { left: 130%; }
+}
+@keyframes rippleOut {
+  from { transform: scale(0); opacity: 0.5; }
+  to   { transform: scale(2.8); opacity: 0; }
+}
+@keyframes orbFloat1 {
+  0%, 100% { transform: translate(0px,   0px)   scale(1); }
+  33%       { transform: translate(40px, -30px)  scale(1.06); }
+  66%       { transform: translate(-20px, 35px)  scale(0.96); }
+}
+@keyframes orbFloat2 {
+  0%, 100% { transform: translate(0px,   0px)   scale(1); }
+  40%       { transform: translate(-35px, 20px)  scale(1.04); }
+  80%       { transform: translate(25px, -40px)  scale(0.97); }
+}
+@keyframes orbFloat3 {
+  0%, 100% { transform: translate(0px,  0px) scale(1); }
+  50%       { transform: translate(15px, 20px) scale(1.08); }
+}
+
+/* ════════════════════════════════════════════════
+   Animation utilities
+   ════════════════════════════════════════════════ */
+.animate-fade-up   { animation: fadeUp   0.5s  cubic-bezier(0.16,1,0.3,1) both; }
+.animate-fade-in   { animation: fadeIn   0.3s  ease-out both; }
+.animate-gauge     { animation: gaugeGrow 0.95s cubic-bezier(0.16,1,0.3,1) both; }
+.animate-celebrate { animation: celebration 0.55s cubic-bezier(0.16,1,0.3,1); }
+
+.stagger-children > *:nth-child(1) { animation-delay: 0.04s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.11s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.18s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.25s; }
+
+/* ════════════════════════════════════════════════
+   Background — orbs + dot grid
+   ════════════════════════════════════════════════ */
+body {
+  font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background-color: #eef1ff;
+  min-height: 100vh;
+}
+
+/* Orb layer */
+.bg-orbs {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+}
+.orb-1 {
+  width: 700px; height: 700px;
+  top: -250px; right: -120px;
+  background: radial-gradient(circle, rgba(99,102,241,0.22) 0%, rgba(139,92,246,0.12) 45%, transparent 70%);
+  animation: orbFloat1 22s ease-in-out infinite;
+}
+.orb-2 {
+  width: 550px; height: 550px;
+  bottom: -180px; left: -80px;
+  background: radial-gradient(circle, rgba(59,130,246,0.18) 0%, rgba(16,185,129,0.08) 50%, transparent 70%);
+  animation: orbFloat2 28s ease-in-out infinite;
+}
+.orb-3 {
+  width: 350px; height: 350px;
+  top: 45%; left: 55%;
+  background: radial-gradient(circle, rgba(236,72,153,0.09) 0%, transparent 65%);
+  animation: orbFloat3 35s ease-in-out infinite;
+}
+
+/* Dot grid */
+.bg-dots {
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(circle at 1.5px 1.5px, rgba(99,102,241,0.13) 1.5px, transparent 0);
+  background-size: 28px 28px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Make page content sit above bg */
+header, main, footer { position: relative; z-index: 1; }
+
+/* ════════════════════════════════════════════════
+   Glass card
+   ════════════════════════════════════════════════ */
+.glass-card {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.88);
+  box-shadow:
+    0 2px 12px rgba(99, 102, 241, 0.07),
+    0 1px 3px  rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+  border-radius: 20px;
+}
+
+/* ════════════════════════════════════════════════
+   Floating-label input
+   ════════════════════════════════════════════════ */
+.field-wrap {
+  position: relative;
+}
+
+.field-input {
+  display: block;
+  width: 100%;
+  height: 56px;
+  padding: 22px 14px 8px;
+  font-size: 15px;
+  font-family: ui-monospace, "SF Mono", "Fira Code", monospace;
+  color: #1e293b;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(148, 163, 184, 0.38);
+  border-radius: 14px;
+  outline: none;
+  transition: border-color 0.22s, box-shadow 0.22s, background 0.22s;
+  -moz-appearance: textfield;
+}
+.field-input::-webkit-inner-spin-button,
+.field-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+/* Label — sits in the middle when empty */
+.field-label {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  font-family: "Noto Sans JP", system-ui, sans-serif;
+  color: #94a3b8;
+  pointer-events: none;
+  transition: top 0.2s cubic-bezier(0.16,1,0.3,1),
+              font-size 0.2s cubic-bezier(0.16,1,0.3,1),
+              color 0.2s,
+              transform 0.2s cubic-bezier(0.16,1,0.3,1);
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* Float up: triggered by focus OR by input having a value */
+.field-input:focus ~ .field-label,
+.field-input:not(:placeholder-shown) ~ .field-label {
+  top: 12px;
+  transform: translateY(0);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #6366f1;
+}
+
+/* Unit badge — shows when focused or filled */
+.field-unit {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+  font-family: "Noto Sans JP", system-ui, sans-serif;
+  color: rgba(148,163,184,0);
+  background: rgba(241,245,249,0);
+  padding: 2px 6px;
+  border-radius: 6px;
+  pointer-events: none;
+  transition: color 0.25s, background 0.25s;
+}
+.field-input:focus ~ .field-unit,
+.field-input:not(:placeholder-shown) ~ .field-unit {
+  color: #94a3b8;
+  background: rgba(241,245,249,0.9);
+}
+
+/* Focus */
+.field-input:focus {
+  border-color: #818cf8;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 3.5px rgba(99,102,241,0.15), 0 4px 20px rgba(99,102,241,0.1);
+}
+
+/* Pass — green */
+.field-input.is-pass {
+  border-color: rgba(16,185,129,0.6);
+  background: rgba(240,253,250,0.85);
+}
+.field-input.is-pass:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3.5px rgba(16,185,129,0.15), 0 4px 20px rgba(16,185,129,0.08);
+}
+.field-input.is-pass ~ .field-label,
+.field-input.is-pass:not(:placeholder-shown) ~ .field-label,
+.field-input.is-pass:focus ~ .field-label {
+  color: #059669 !important;
+}
+
+/* Fail — red */
+.field-input.is-fail {
+  border-color: rgba(248,113,113,0.55);
+  background: rgba(255,250,250,0.88);
+}
+.field-input.is-fail:focus {
+  border-color: #f87171;
+  box-shadow: 0 0 0 3.5px rgba(248,113,113,0.14), 0 4px 20px rgba(248,113,113,0.07);
+}
+.field-input.is-fail ~ .field-label,
+.field-input.is-fail:not(:placeholder-shown) ~ .field-label,
+.field-input.is-fail:focus ~ .field-label {
+  color: #ef4444 !important;
+}
+
+/* ════════════════════════════════════════════════
+   Region pill buttons
+   ════════════════════════════════════════════════ */
+.region-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  padding: 9px 4px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1.5px solid rgba(148,163,184,0.25);
+  background: rgba(255,255,255,0.6);
+  color: #64748b;
+  transition: transform 0.18s cubic-bezier(0.16,1,0.3,1),
+              box-shadow 0.18s,
+              background 0.18s,
+              color 0.18s,
+              border-color 0.18s;
+  backdrop-filter: blur(4px);
+}
+.region-btn:hover:not(.active) {
+  transform: translateY(-2px);
+  background: rgba(238,241,255,0.9);
+  border-color: rgba(99,102,241,0.3);
+  color: #4f46e5;
+  box-shadow: 0 4px 14px rgba(99,102,241,0.12);
+}
+.region-btn:active { transform: scale(0.91) !important; }
+
+.region-btn.active {
+  background: linear-gradient(140deg, #4f46e5 0%, #7c3aed 100%);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 6px 20px rgba(99,102,241,0.45), 0 1px 4px rgba(0,0,0,0.1);
+  transform: translateY(-2px) scale(1.07);
+}
+
+/* Ripple spot inside button */
+.btn-ripple-spot {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.45);
+  pointer-events: none;
+  transform: scale(0);
+  animation: rippleOut 0.55s linear forwards;
+}
+
+/* ════════════════════════════════════════════════
+   CTA button — animated gradient + shimmer
+   ════════════════════════════════════════════════ */
+.btn-cta {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding: 15px 24px;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 0.025em;
+  /* Gradient that shifts on hover */
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #2563eb 100%);
+  background-size: 200% 100%;
+  background-position: 0% 0%;
+  transition: background-position 0.45s ease,
+              transform 0.18s cubic-bezier(0.16,1,0.3,1),
+              box-shadow 0.25s;
+  box-shadow: 0 4px 24px rgba(99,102,241,0.4),
+              0 1px 4px rgba(0,0,0,0.1),
+              inset 0 1px 0 rgba(255,255,255,0.2);
+}
+.btn-cta:hover {
+  background-position: 100% 0%;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(99,102,241,0.5),
+              0 2px 8px rgba(0,0,0,0.12),
+              inset 0 1px 0 rgba(255,255,255,0.2);
+}
+.btn-cta:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 2px 12px rgba(99,102,241,0.3);
+}
+
+/* Shimmer sweep on hover */
+.btn-cta-shimmer {
+  position: absolute;
+  top: 0;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.22) 50%, transparent 100%);
+  pointer-events: none;
+  left: -80%;
+  transition: none;
+}
+.btn-cta:hover .btn-cta-shimmer {
+  left: 130%;
+  transition: left 0.55s ease-in-out;
+}
+
+/* ════════════════════════════════════════════════
+   Modal buttons
+   ════════════════════════════════════════════════ */
+.btn-apply {
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+  padding: 13px 16px;
+  border-radius: 13px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  box-shadow: 0 4px 14px rgba(79,70,229,0.35);
+  transition: transform 0.15s cubic-bezier(0.16,1,0.3,1), box-shadow 0.2s;
+}
+.btn-apply:hover {
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 20px rgba(79,70,229,0.45);
+}
+.btn-apply:active { transform: scale(0.96); }
+
+.btn-cancel {
+  flex: 1;
+  padding: 13px 16px;
+  border-radius: 13px;
+  border: 1.5px solid rgba(148,163,184,0.35);
+  background: rgba(248,250,252,0.85);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #475569;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+}
+.btn-cancel:hover {
+  background: rgba(241,245,249,1);
+  border-color: rgba(148,163,184,0.55);
+  transform: translateY(-1px);
+}
+.btn-cancel:active { transform: scale(0.97); }
+
+/* Thickness preset chips */
+.thickness-chip {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid rgba(148,163,184,0.25);
+  background: rgba(241,245,249,0.8);
+  color: #475569;
+  transition: background 0.15s, color 0.15s, transform 0.12s, box-shadow 0.15s;
+}
+.thickness-chip:hover {
+  background: rgba(238,241,255,0.9);
+  color: #4f46e5;
+  border-color: rgba(99,102,241,0.3);
+  transform: translateY(-1px);
+}
+.thickness-chip:active { transform: scale(0.93); }
+.thickness-chip.selected {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 2px 8px rgba(99,102,241,0.35);
+}
+
+/* ════════════════════════════════════════════════
+   Misc
+   ════════════════════════════════════════════════ */
+input[type="number"] { -moz-appearance: textfield; }
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
